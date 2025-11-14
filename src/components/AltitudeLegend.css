@@ -1,0 +1,249 @@
+/* Altitude legend style */
+.alt-legend-container {
+	color: #e6ecef;
+	font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+	user-select: none;
+	background: transparent;
+	border: none;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	pointer-events: none;
+}
+
+.alt-legend-container.overlay {
+	position: fixed;
+	bottom: 28px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100000;
+	pointer-events: auto;
+}
+
+.alt-legend-container.sidebar {
+	position: static;
+	transform: none;
+	width: 100%;
+	align-items: stretch;
+	--legend-label-top: 12px;
+	--legend-stack-step: 11px;
+	padding-bottom: calc(var(--legend-label-top) + var(--legend-stack-step) * 2 + 12px);
+}
+
+.alt-legend-title {
+	font-size: 12px;
+	letter-spacing: 0.6px;
+	margin-bottom: 4px;
+	font-weight: 700;
+	opacity: 0.95;
+}
+
+.alt-legend-container.sidebar .alt-legend-title {
+	font-size: 0.9rem;
+	letter-spacing: 0.5px;
+	margin-bottom: 10px;
+	text-align: center;
+	opacity: 0.95;
+}
+
+.alt-legend-bar {
+	position: relative;
+	height: 8px;
+	margin: 0 auto;
+	border: 1px solid rgba(0, 0, 0, 0.8);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+	background-clip: padding-box;
+	backdrop-filter: blur(1px);
+	width: clamp(320px, 65vw, 720px);
+	max-width: 720px;
+}
+
+.alt-legend-container.sidebar .alt-legend-bar {
+	width: 100%;
+	max-width: none;
+	height: 12px;
+	margin: 0 0 calc(var(--legend-stack-step) * 2 + 12px);
+}
+
+/* Markers */
+.alt-legend-marker {
+	position: absolute;
+	top: -6px;
+	width: 2px;
+	height: calc(100% + 12px);
+	background: #ffffff;
+	opacity: 0.9;
+	transform: translateX(-50%);
+}
+
+.alt-legend-fill {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.alt-legend-tick {
+	position: absolute;
+	top: 0;
+	height: 100%;
+}
+
+.alt-legend-tick-line {
+	position: absolute;
+	right: 0;
+	top: 0;
+	width: 1px; 
+	height: 100%;
+	background: rgba(0,0,0,0.6);
+}
+
+.alt-legend-tick-label {
+	position: absolute;
+	left: 0; 
+	transform: translateX(-50%); 
+	top: 10px;
+	font-size: 11px;
+	color: #cfd8dc;
+	white-space: nowrap;
+}
+
+.alt-legend-tick-label.first {
+	left: 0;
+	transform: none;
+}
+
+.alt-legend-tick-label.last {
+	left: 0;
+	transform: translateX(-100%);
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label {
+	top: var(--legend-label-top);
+	font-size: 0.8rem;
+	color: rgba(223, 231, 255, 0.88);
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label.first {
+	transform: none;
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label.last {
+	transform: translateX(-100%);
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label.stack-1 {
+	top: calc(var(--legend-label-top) + var(--legend-stack-step));
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label.stack-2 {
+	top: calc(var(--legend-label-top) + var(--legend-stack-step) * 2);
+}
+
+.alt-legend-container.sidebar .alt-legend-tick-label.stack-3 {
+	top: calc(var(--legend-label-top) + var(--legend-stack-step) * 3);
+}
+
+/* Sidebar responsive reduction */
+@media (max-width: 1024px) {
+	.alt-legend-container.sidebar {
+		--legend-label-top: 12px;
+		--legend-stack-step: 10px;
+	}
+	.alt-legend-container.sidebar .alt-legend-tick-label {
+		font-size: 0.7rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.alt-legend-container.sidebar {
+		--legend-label-top: 11px;
+		--legend-stack-step: 9px;
+	}
+	.alt-legend-container.sidebar .alt-legend-tick-label {
+		font-size: 0.6rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.alt-legend-container.sidebar {
+		--legend-label-top: 10px;
+		--legend-stack-step: 8px;
+	}
+	.alt-legend-container.sidebar .alt-legend-tick-label {
+		font-size: 0.52rem;
+	}
+}
+
+@media (max-width: 1024px) {
+	.alt-legend-container.overlay {
+		bottom: 26px;
+	}
+	.alt-legend-container.overlay .alt-legend-title {
+		font-size: 11px;
+	}
+	.alt-legend-container.overlay .alt-legend-bar {
+		width: clamp(240px, 62vw, 520px);
+		height: 8px;
+	}
+	.alt-legend-container.overlay .alt-legend-tick-label {
+		font-size: 10px;
+		top: 9px;
+	}
+}
+
+@media (max-width: 768px) {
+	.alt-legend-container.overlay .alt-legend-bar {
+		width: clamp(220px, 70vw, 460px);
+		height: 7px;
+	}
+	.alt-legend-container.overlay .alt-legend-title {
+		font-size: 10px;
+	}
+	.alt-legend-container.overlay .alt-legend-tick-label {
+		font-size: 9px;
+		top: 8px;
+	}
+}
+
+@media (max-width: 640px) {
+	.alt-legend-container.overlay {
+		bottom: 24px;
+		width: 100%;
+		padding: 0 20px;
+	}
+	.alt-legend-container.overlay .alt-legend-title {
+		font-size: 9px;
+		text-align: center;
+	}
+	.alt-legend-container.overlay .alt-legend-bar {
+		width: min(340px, 88vw);
+		height: 6px;
+		margin: 0 auto;
+	}
+	.alt-legend-container.overlay .alt-legend-tick-label {
+		font-size: 8px;
+		top: 7px;
+	}
+}
+
+@media (max-width: 480px) {
+	.alt-legend-container.overlay {
+		bottom: 20px;
+		padding: 0 16px;
+	}
+	.alt-legend-container.overlay .alt-legend-bar {
+		width: min(260px, 82vw);
+		height: 5px;
+	}
+	.alt-legend-container.overlay .alt-legend-title {
+		font-size: 8px;
+		letter-spacing: 0.5px;
+	}
+	.alt-legend-container.overlay .alt-legend-tick-label {
+		font-size: 7px;
+		top: 6px;
+	}
+}

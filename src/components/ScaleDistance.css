@@ -1,0 +1,65 @@
+.scale-distance-root {
+  position: fixed;
+  bottom: 25px; 
+  left: 20px;
+  z-index: 100000;
+}
+
+.scale-distance-root:not(.inline) {
+  pointer-events: none;
+}
+
+.scale-distance-root.inline {
+  position: static;
+  bottom: auto;
+  left: auto;
+  z-index: auto;
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+}
+
+.scale-distance-box {
+  pointer-events: auto; 
+  background: transparent;
+  color: #e6ecef;
+  padding: 2px 8px; 
+  border-radius: 6px;
+  border: none; 
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.55px;
+  font-weight: 700;
+  box-shadow: none;
+  background-clip: padding-box;
+  backdrop-filter: blur(1px);
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+}
+
+@media (max-width: 1024px) {
+  .scale-distance-box {
+    font-size: 0.95rem;
+    letter-spacing: 0.48px;
+    padding: 2px 7px;
+  }
+}
+
+@media (max-width: 640px) {
+  .scale-distance-box {
+    font-size: 0.9rem;
+    letter-spacing: 0.4px;
+    padding: 2px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scale-distance-box {
+    font-size: 0.82rem;
+    letter-spacing: 0.34px;
+    padding: 2px 5px;
+  }
+}
