@@ -354,14 +354,6 @@ export default function SearchSidebar({
                   <span className="filter-suffix">ft</span>
                 </div>
                 <div className="filter-actions">
-                  <button
-                    type="button"
-                    className="filter-btn primary"
-                    onClick={() => {
-                      onSetAltMinFt(altMinFt ?? null);
-                      onSetAltMaxFt(altMaxFt ?? null);
-                    }}
-                  >Filter</button>
                   <button type="button" className="filter-btn" onClick={() => { onSetAltMinFt(null); onSetAltMaxFt(null); }}>Reset</button>
                 </div>
               </div>

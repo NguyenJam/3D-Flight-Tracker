@@ -328,6 +328,16 @@ const SimpleFlightTracker = ({
       return true;
     });
   }, [sourceFilters, filterAirborne, filterOnGround, altMinFt, altMaxFt, normalizedCallsign, normalizedIcao, normalizedCountry]);
+
+  const filterFlightsRef = React.useRef(filterFlights);
+  React.useEffect(() => {
+    filterFlightsRef.current = filterFlights;
+  }, [filterFlights]);
+
+  const maxAircraftRef = React.useRef(maxAircraft);
+  React.useEffect(() => {
+    maxAircraftRef.current = maxAircraft;
+  }, [maxAircraft]);
   
   // Convert lat/lon to 3D coordinates on globe
   const latLonToPosition = React.useCallback((lat, lon, radius = 2.05) => {
@@ -392,13 +402,13 @@ const SimpleFlightTracker = ({
     return { lat: jLat, lon: jLon };
   };
 
-  // Fetch real flight data
+  // Fetch flight data
   const fetchRealFlights = React.useCallback(async () => {
     setLoading(true);
     setError(null);
     
     try {
-      console.log('Fetching real flight data from OpenSky Network...');
+      console.log('Fetching flight data...');
       
       const headers = { 'Accept': 'application/json' };
       if (trackerToken) headers['Authorization'] = `Bearer ${trackerToken}`;
@@ -565,7 +575,10 @@ const SimpleFlightTracker = ({
           });
 
         // Apply filters
-        const statusFiltered = filterFlights(realFlights);
+        const applyFilters = typeof filterFlightsRef.current === 'function'
+          ? filterFlightsRef.current
+          : (list) => list || [];
+        const statusFiltered = applyFilters(realFlights);
         
         // Log a few positions for debugging
         realFlights.slice(0, 3).forEach(flight => {
@@ -575,14 +588,15 @@ const SimpleFlightTracker = ({
         // Store raw flights and apply limit
         setRawFlights(realFlights);
         const working = statusFiltered;
-        const limitedFlights = (maxAircraft === null || maxAircraft === undefined)
+        const limit = maxAircraftRef.current;
+        const limitedFlights = (limit === null || limit === undefined)
           ? working
-          : working.slice(0, maxAircraft);
+          : working.slice(0, limit);
         setFlights(limitedFlights);
         flightsForVisibilityRef.current = limitedFlights;
         resetVisibleTracking();
         setLastUpdate(Date.now());
-        console.log(`Loaded ${realFlights.length} real flights, showing ${limitedFlights.length} (limit: ${maxAircraft ?? 'All'})`);
+        console.log(`Loaded ${realFlights.length} flights, showing ${limitedFlights.length} (limit: ${limit ?? 'All'})`);
         reportTotalAvailable(working.length);
         if (onFlightsUpdate) {
           onFlightsUpdate(limitedFlights);
@@ -594,7 +608,7 @@ const SimpleFlightTracker = ({
       }
       
     } catch (err) {
-      console.error('Error fetching real flight data:', err.message);
+      console.error('Error fetching flight data:', err.message);
       setError(err.message);
       const hasFlights = flightsForVisibilityRef.current && flightsForVisibilityRef.current.length > 0;
       if (!hasFlights) {
@@ -612,7 +626,7 @@ const SimpleFlightTracker = ({
     } finally {
       setLoading(false);
     }
-  }, [latLonToPosition, filterFlights, maxAircraft, trackerToken, onFlightsUpdate, reportTotalAvailable, resetVisibleTracking, flushVisibleCount]);
+  }, [latLonToPosition, trackerToken, onFlightsUpdate, reportTotalAvailable, resetVisibleTracking, flushVisibleCount]);
   
   // Effect to redisplay flights when maxAircraft limit changes
   React.useEffect(() => {
@@ -646,7 +660,7 @@ const SimpleFlightTracker = ({
     fetchRealFlights();
   }, [enabled, fetchRealFlights, flushVisibleCount, reportTotalAvailable, onFlightsUpdate, resetVisibleTracking]);
   
-  // Auto-refresh real data every 30 seconds
+  // Auto-refresh data every 30 seconds
   React.useEffect(() => {
     if (!enabled) return;
     
