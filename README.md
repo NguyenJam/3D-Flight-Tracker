@@ -4,9 +4,9 @@
 [![Status](https://img.shields.io/badge/status-experimental-yellow)]()
 
 > [!NOTE]
-> **Project Info:** This is a personal/demo project that visualizes live air traffic on a 3D globe using browser-based WebGL.
+> **Project Info:** This is a personal proof-of-concept project that visualizes live air traffic on a 3D globe using browser-based WebGL.
 
-**3D Flight Tracker is an interactive visualization of real-world flights on a 3D globe.** It uses React, React Three Fiber, and Three.js to render aircraft in real time from the OpenSky Network API.
+**3DFlights is an interactive visualization of real-world flights on a 3D globe.** It uses React, React Three Fiber, and Three.js to render aircraft in real time from the OpenSky Network API.
 
 ## Features
 
